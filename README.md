@@ -3,7 +3,7 @@ ECE 5470, Digital Image Processing
 Homework #3
 
 
-The MATLAB code from file 'Meola_ECE_5470_Homework_3' accomplishes the following, in order:
+The MATLAB code from file 'Meola_ECE_5470_Homework_3.m' accomplishes the following, in order:
 -------------------------------------------------------------------------
 
 1: Loads the input image and creates an image intensity matrix ['f'].
