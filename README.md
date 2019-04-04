@@ -31,6 +31,8 @@ The MATLAB code from file 'Meola_ECE_5470_Homework_3' accomplishes the following
 
 11: Unpads 'uncentered' image back to the original size of 'f'.
 
-12: Save final subplots of all results from parts #1-11. 
+12: Saves the final subplot figure of all displayed results from parts #1-11. 
+
+13. Saves the final resulting, unpadded image as 'output_img' in file folder.
 
 ----------------------------------------------------------------
