@@ -1,5 +1,7 @@
 Charlotte Meola
+
 ECE 5470, Digital Image Processing
+
 Homework #3
 
 
