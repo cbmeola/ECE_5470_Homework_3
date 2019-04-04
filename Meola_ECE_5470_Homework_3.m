@@ -47,6 +47,7 @@ title('Original Image', 'FontSize', 8)
 [M_orig, N_orig] = size(f);
 
 
+
 % 2: Apply 2D zero padding to [orig_img]. Saves new padded image [f_padded].
 f_padded = padarray(f,[M_orig, N_orig], 0, 'post')
 [M_pad, N_pad] = size(f_padded);
@@ -55,6 +56,7 @@ f_padded = padarray(f,[M_orig, N_orig], 0, 'post')
 subplot(3, 4, 2)
 imshow(f_padded );
 title('Original Padded Image', 'FontSize', 8)
+
 
 
 % 3: Normalize the image intensity values from [0, 1].
@@ -122,13 +124,14 @@ subplot(3, 4, 5);
    
 % Allocate space for image:
 N = zeros(size(F));
+D = zeros(size(F));
    
 % Loop over all rows and columns:
 for ii=1:M_pad;
     for jj=1:N_pad;
         % Get D(u,v) value, distance:
-        D = sqrt((ii-M_pad/2)^2+(jj-N_pad/2)^2);
-        if D <= 150
+        D(ii, jj) = sqrt((ii-M_pad/2)^2+(jj-N_pad/2)^2);
+        if D(ii,jj) <= 100
             new_pixel =1;
         else
             new_pixel =0;
@@ -154,8 +157,8 @@ L = zeros(size(N));
 % Loop over all rows and columns:
 for ii=1:M_pad;
     for jj=1:N_pad;
-        D = sqrt((ii)^2+(jj)^2);
-        new_pixel =-4*pi^2*(D^2);
+        DL = sqrt((ii)^2+(jj)^2);
+        new_pixel =-4*pi^2*(DL^2);
         % Save new pixel value in centered image:
         L(ii,jj)=new_pixel;
      end
@@ -165,6 +168,7 @@ end
 subplot(3, 4, 7)
 imshow(abs(L), []);
 title({'Laplacian of Gaussian Image','L(u, v)'}, 'FontSize', 8)
+
 
 
 % 8: Multiplies F(u,v)*N(u,v)*L(u,v) to get resulting image [multiplied_img].
@@ -187,10 +191,11 @@ imshow(abs(M), []);
 title({'Multiplied Image','F(u,v)*N(u, v)*L(u, v)' }, 'FontSize', 8)
 
 
+
 % 9: Gets the inverse Fourier [inv_M] of the mutliplied image, [M].
 % F^-1{ F(u,v)*N(u,v)*L(u,v) }
 
-inv_M = ifft2(M);
+inv_M = ifft2(double(M));
 
 % Display result:
 subplot(3, 4, 9)
@@ -220,7 +225,7 @@ end
 
 % Display result:
 subplot(3, 4, 10)
-uncentered = abs(uncentered);
+uncentered = mat2gray(abs(uncentered));
 imshow(uncentered, []);
 title('Uncentered Inverse Fourier Image', 'FontSize', 8)
 
@@ -230,13 +235,14 @@ title('Uncentered Inverse Fourier Image', 'FontSize', 8)
 
 % Only keep original size from padded image:
 unpadded = uncentered(1:M_orig,1:N_orig);
-unpadded = mat2gray(unpadded)
+%unpadded = mat2gray(unpadded)
 
 % Display result:
 subplot(3, 4, 11)
-unpadded = 255*unpadded;
-imshow(unpadded, [])
+unpadded = abs(unpadded);
+imshow(unpadded)
 title('Final Unpadded Image', 'FontSize', 8)
+
 
 
 % 12: Save final subplots of all results from parts 1-11. 
@@ -244,6 +250,6 @@ saveas(gcf,'Results_Figure.png')
 
 % Save output image:
 figure(2);
-imshow(abs(unpadded), []);
+imshow((unpadded));
 saveas(gcf, 'output_img.png');
 
